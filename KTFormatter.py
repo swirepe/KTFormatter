@@ -181,7 +181,7 @@ class KTFormatter:
         line = line.split(self.sep)
         student = self.student_id(line[self.student_col])
         
-        response = int(line[self.response_col])
+        response = str(int(line[self.response_col]))
         
         if self.kdd:
             skills = line[self.skill_col].split("~~")
@@ -215,20 +215,7 @@ class KTFormatter:
         else:
             return os.path.join(self.outputdir, opt, skill)
     
-    
-    
-    def getOutputNameForStudentFile(self, skill, student, opt=None):
-        if self.compress:
-            student = str(student) + ".gz"
-        else:
-            student = str(student) + ".csv"
-            
-        if opt == None:
-            return os.path.join(self.outputdir, skill, student)
-        else:
-            return os.path.join(self.outputdir, opt, skill, student)
-    
-    
+
     
     def _dumpBySkill(self):
         train = defaultdict(list)
@@ -262,7 +249,7 @@ class KTFormatter:
         opt means put in the train folder, the test folder, or the root folder"""
         for skill, responses in skilldict.iteritems():
             outblob = "\n".join([self.outsep.join(r) for r in responses])
-            fname = getOutputNameForSkillFile(skill, opt)
+            fname = self.getOutputNameForSkillFile(skill, opt)
             out = self.getFile(fname)
             out.write(outblob)
             out.close()
@@ -341,11 +328,11 @@ class KTFormatter:
 
     def dumpObjects(self):  
         if self.split_student:
-            _dumpByStudent()
+            self._dumpByStudent()
         elif self.split_skill:
-            _dumpBySkill()
+            self._dumpBySkill()
         else:
-            _dumpAll()
+            self._dumpAll()
             
         
     def dumpMaps(self):
@@ -383,7 +370,7 @@ class IncrementMap:
             return lookup_id
         
         try:
-            return table[lookup_id]
+            return self.table[lookup_id]
         except:
             self.table[lookup_id] = self.index
             self.index += 1
