@@ -1,2 +1,2 @@
 @echo off
-python KTFormatter.py --input bridge_to_algebra_2006_2007_train.txt --output bridge --student 1 --skill 17 --response 13 --header --tabs-in --split-by-skill --skills-as-int --students-as-int --kdd --compress
+python KTFormatter.py --input bridge_to_algebra_2006_2007_train.txt --output bridge --student 1 --skill 17 --response 13 --train-percent 0.70 --header --tabs-in --split-by-skill --skills-as-int --students-as-int --kdd --compress
